@@ -6,6 +6,6 @@ diff_program:meld
 
 # Settings for the TypeScript version
 executable:${TEXTTEST_HOME}/TypeScript/texttest_rig.py
-interpreter:python
+interpreter:python3
 
 filename_convention_scheme:standard
