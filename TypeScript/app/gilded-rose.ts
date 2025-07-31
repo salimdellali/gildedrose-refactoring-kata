@@ -87,9 +87,9 @@ export class GildedRose {
   }
 
   updateQuality() {
-    for (let i = 0; i < this.items.length; i++) {
-      const strategy = GildedRose.getStrategy(this.items[i]);
-      strategy.update(this.items[i]);
+    for (const item of this.items) {
+      const strategy = GildedRose.getStrategy(item);
+      strategy.update(item);
     }
 
     return this.items;
