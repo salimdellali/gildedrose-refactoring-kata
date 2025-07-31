@@ -87,7 +87,7 @@ export class GildedRose {
     if (item.name === "Aged Brie") return GildedRose.agedBrieStrategy;
     if (item.name === "Sulfuras, Hand of Ragnaros")
       return GildedRose.sulfurasStrategy;
-    if (item.name.startsWith("Backstage passes"))
+    if (item.name === "Backstage passes to a TAFKAL80ETC concert")
       return GildedRose.backstageStrategy;
     return GildedRose.normalStrategy;
   }
