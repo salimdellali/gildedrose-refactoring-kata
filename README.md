@@ -1,7 +1,3 @@
-# My notes
-
-**Note:** To see my refactored version of the Gilded Rose Kata guided by GitHub Copilot, check out the branch `with-copilot` in this repository.
-
 # Gilded Rose Refactoring Kata
 
 _Support this and all my katas via [Patreon](https://www.patreon.com/EmilyBache)_
