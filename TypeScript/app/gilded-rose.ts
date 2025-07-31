@@ -73,17 +73,23 @@ class BackstageStrategy implements UpdateStrategy {
 export class GildedRose {
   items: Array<Item>;
 
+  // Static cached strategy instances
+  private static readonly normalStrategy = new NormalStrategy();
+  private static readonly agedBrieStrategy = new AgedBrieStrategy();
+  private static readonly sulfurasStrategy = new SulfurasStrategy();
+  private static readonly backstageStrategy = new BackstageStrategy();
+
   constructor(items = [] as Array<Item>) {
     this.items = items;
   }
 
   private static getStrategy(item: Item): UpdateStrategy {
-    if (item.name === "Aged Brie") return new AgedBrieStrategy();
+    if (item.name === "Aged Brie") return GildedRose.agedBrieStrategy;
     if (item.name === "Sulfuras, Hand of Ragnaros")
-      return new SulfurasStrategy();
+      return GildedRose.sulfurasStrategy;
     if (item.name.startsWith("Backstage passes"))
-      return new BackstageStrategy();
-    return new NormalStrategy();
+      return GildedRose.backstageStrategy;
+    return GildedRose.normalStrategy;
   }
 
   updateQuality() {
