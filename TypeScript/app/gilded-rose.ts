@@ -70,6 +70,20 @@ class BackstageStrategy implements UpdateStrategy {
   }
 }
 
+// Conjured item strategy
+class ConjuredStrategy implements UpdateStrategy {
+  update(item: Item) {
+    if (item.quality > 0) {
+      item.quality -= 2;
+    }
+    item.sellIn -= 1;
+    if (item.sellIn < 0 && item.quality > 0) {
+      item.quality -= 2;
+    }
+    if (item.quality < 0) item.quality = 0;
+  }
+}
+
 export class GildedRose {
   items: Array<Item>;
 
@@ -78,12 +92,14 @@ export class GildedRose {
   private static readonly agedBrieStrategy = new AgedBrieStrategy();
   private static readonly sulfurasStrategy = new SulfurasStrategy();
   private static readonly backstageStrategy = new BackstageStrategy();
+  private static readonly conjuredStrategy = new ConjuredStrategy();
 
   // Strategy map for item name to strategy
   private static readonly strategyMap: Record<string, UpdateStrategy> = {
     "Aged Brie": GildedRose.agedBrieStrategy,
     "Sulfuras, Hand of Ragnaros": GildedRose.sulfurasStrategy,
     "Backstage passes to a TAFKAL80ETC concert": GildedRose.backstageStrategy,
+    "Conjured Mana Cake": GildedRose.conjuredStrategy,
   };
 
   constructor(items = [] as Array<Item>) {
