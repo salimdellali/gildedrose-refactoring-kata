@@ -77,19 +77,18 @@ export class GildedRose {
     this.items = items;
   }
 
-  updateQuality() {
-    // Strategy selector
-    function getStrategy(item: Item): UpdateStrategy {
-      if (item.name === "Aged Brie") return new AgedBrieStrategy();
-      if (item.name === "Sulfuras, Hand of Ragnaros")
-        return new SulfurasStrategy();
-      if (item.name.startsWith("Backstage passes"))
-        return new BackstageStrategy();
-      return new NormalStrategy();
-    }
+  private static getStrategy(item: Item): UpdateStrategy {
+    if (item.name === "Aged Brie") return new AgedBrieStrategy();
+    if (item.name === "Sulfuras, Hand of Ragnaros")
+      return new SulfurasStrategy();
+    if (item.name.startsWith("Backstage passes"))
+      return new BackstageStrategy();
+    return new NormalStrategy();
+  }
 
+  updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
-      const strategy = getStrategy(this.items[i]);
+      const strategy = GildedRose.getStrategy(this.items[i]);
       strategy.update(this.items[i]);
     }
 
