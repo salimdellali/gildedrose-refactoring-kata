@@ -10,6 +10,66 @@ export class Item {
   }
 }
 
+// Strategy interfaces
+interface UpdateStrategy {
+  update(item: Item): void;
+}
+
+// Normal item strategy
+class NormalStrategy implements UpdateStrategy {
+  update(item: Item) {
+    if (item.quality > 0) {
+      item.quality -= 1;
+    }
+    item.sellIn -= 1;
+    if (item.sellIn < 0 && item.quality > 0) {
+      item.quality -= 1;
+    }
+    if (item.quality < 0) item.quality = 0;
+  }
+}
+
+// Aged Brie strategy
+class AgedBrieStrategy implements UpdateStrategy {
+  update(item: Item) {
+    if (item.quality < 50) {
+      item.quality += 1;
+    }
+    item.sellIn -= 1;
+    if (item.sellIn < 0 && item.quality < 50) {
+      item.quality += 1;
+    }
+    if (item.quality > 50) item.quality = 50;
+  }
+}
+
+// Sulfuras strategy
+class SulfurasStrategy implements UpdateStrategy {
+  update(item: Item) {
+    // Legendary: do nothing
+  }
+}
+
+// Backstage passes strategy
+class BackstageStrategy implements UpdateStrategy {
+  update(item: Item) {
+    if (item.quality < 50) {
+      item.quality += 1;
+      if (item.sellIn < 11 && item.quality < 50) {
+        item.quality += 1;
+      }
+      if (item.sellIn < 6 && item.quality < 50) {
+        item.quality += 1;
+      }
+    }
+    item.sellIn -= 1;
+    if (item.sellIn < 0) {
+      item.quality = 0;
+    }
+    if (item.quality > 50) item.quality = 50;
+  }
+}
+
 export class GildedRose {
   items: Array<Item>;
 
@@ -18,66 +78,6 @@ export class GildedRose {
   }
 
   updateQuality() {
-    // Strategy interfaces
-    interface UpdateStrategy {
-      update(item: Item): void;
-    }
-
-    // Normal item strategy
-    class NormalStrategy implements UpdateStrategy {
-      update(item: Item) {
-        if (item.quality > 0) {
-          item.quality -= 1;
-        }
-        item.sellIn -= 1;
-        if (item.sellIn < 0 && item.quality > 0) {
-          item.quality -= 1;
-        }
-        if (item.quality < 0) item.quality = 0;
-      }
-    }
-
-    // Aged Brie strategy
-    class AgedBrieStrategy implements UpdateStrategy {
-      update(item: Item) {
-        if (item.quality < 50) {
-          item.quality += 1;
-        }
-        item.sellIn -= 1;
-        if (item.sellIn < 0 && item.quality < 50) {
-          item.quality += 1;
-        }
-        if (item.quality > 50) item.quality = 50;
-      }
-    }
-
-    // Sulfuras strategy
-    class SulfurasStrategy implements UpdateStrategy {
-      update(item: Item) {
-        // Legendary: do nothing
-      }
-    }
-
-    // Backstage passes strategy
-    class BackstageStrategy implements UpdateStrategy {
-      update(item: Item) {
-        if (item.quality < 50) {
-          item.quality += 1;
-          if (item.sellIn < 11 && item.quality < 50) {
-            item.quality += 1;
-          }
-          if (item.sellIn < 6 && item.quality < 50) {
-            item.quality += 1;
-          }
-        }
-        item.sellIn -= 1;
-        if (item.sellIn < 0) {
-          item.quality = 0;
-        }
-        if (item.quality > 50) item.quality = 50;
-      }
-    }
-
     // Strategy selector
     function getStrategy(item: Item): UpdateStrategy {
       if (item.name === "Aged Brie") return new AgedBrieStrategy();
