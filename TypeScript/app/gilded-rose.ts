@@ -79,17 +79,19 @@ export class GildedRose {
   private static readonly sulfurasStrategy = new SulfurasStrategy();
   private static readonly backstageStrategy = new BackstageStrategy();
 
+  // Strategy map for item name to strategy
+  private static readonly strategyMap: Record<string, UpdateStrategy> = {
+    "Aged Brie": GildedRose.agedBrieStrategy,
+    "Sulfuras, Hand of Ragnaros": GildedRose.sulfurasStrategy,
+    "Backstage passes to a TAFKAL80ETC concert": GildedRose.backstageStrategy,
+  };
+
   constructor(items = [] as Array<Item>) {
     this.items = items;
   }
 
   private static getStrategy(item: Item): UpdateStrategy {
-    if (item.name === "Aged Brie") return GildedRose.agedBrieStrategy;
-    if (item.name === "Sulfuras, Hand of Ragnaros")
-      return GildedRose.sulfurasStrategy;
-    if (item.name === "Backstage passes to a TAFKAL80ETC concert")
-      return GildedRose.backstageStrategy;
-    return GildedRose.normalStrategy;
+    return GildedRose.strategyMap[item.name] || GildedRose.normalStrategy;
   }
 
   updateQuality() {
